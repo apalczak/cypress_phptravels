@@ -2,15 +2,11 @@ const randomEmail = require("../../fixtures/random_email");
 
 class ContactUs {
     static typeName(name) {
-        if (name) {
-            cy.xpath(
-                '//div[@id="body-section"]//form//input[@name="contact_name"]'
-            )
-                .scrollIntoView()
-                .clear()
-                .type(name)
-                .should("have.attr", "required");
-        }
+        cy.xpath('//div[@id="body-section"]//form//input[@name="contact_name"]')
+            .scrollIntoView()
+            .clear()
+            .type(name)
+            .should("have.attr", "required");
     }
 
     static typeEmail(type) {
@@ -22,27 +18,26 @@ class ContactUs {
             .type(randomEmail(type))
             .should("have.attr", "required");
     }
+
     static typeSubject(subject) {
-        if (subject) {
-            cy.xpath(
-                '//div[@id="body-section"]//form//input[@name="contact_subject"]'
-            )
-                .scrollIntoView()
-                .clear()
-                .type(subject)
-                .should("have.attr", "required");
-        }
+        cy.xpath(
+            '//div[@id="body-section"]//form//input[@name="contact_subject"]'
+        )
+            .scrollIntoView()
+            .clear()
+            .type(subject)
+            .should("have.attr", "required");
     }
+
     static typeMessage(message) {
-        if (message) {
-            cy.xpath(
-                '//div[@id="body-section"]//form//textarea[@name="contact_message"]'
-            )
-                .scrollIntoView()
-                .clear()
-                .type(message);
-        }
+        cy.xpath(
+            '//div[@id="body-section"]//form//textarea[@name="contact_message"]'
+        )
+            .scrollIntoView()
+            .clear()
+            .type(message);
     }
+
     static submit() {
         cy.xpath(
             '//div[@id="message-contact"]/../..//*[@name="submit_contact"]'

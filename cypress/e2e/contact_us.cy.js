@@ -22,7 +22,6 @@ describe("Contact Us form", () => {
         ContactUs.typeName("John Doe");
         ContactUs.typeEmail();
         ContactUs.typeSubject("Test subject");
-        ContactUs.typeMessage("");
         ContactUs.submit();
         ContactUs.responseMessage()
             .should("have.class", "alert-danger")
