@@ -6,24 +6,26 @@ describe("Newsletter subscribction form", () => {
     });
 
     it("blocks subscription with already subscribed address", () => {
+        Newsletter.typeEmail();
+        Newsletter.submit();
         cy.intercept({ method: "POST", url: "**/subscribe" }).as("subscribe");
-        Newsletter.typeRandomEmail();
-        cy.get(".sub_newsletter").click();
+        Newsletter.submit();
         cy.wait("@subscribe").its("response.statusCode").should("eq", 200);
         cy.get("@subscribe")
             .its("response.body")
             .should("contain", "Already Subscribed");
-        cy.get(".subscriberesponse").should("contain", "Already Subscribed");
+        Newsletter.responseMessage().should("contain", "Already Subscribed");
     });
 
     it("makes a subscription with a new address", () => {
         cy.intercept({ method: "POST", url: "**/subscribe" }).as("subscribe");
-        Newsletter.typeRandomEmail();
+        Newsletter.typeEmail();
+        Newsletter.submit();
         cy.wait("@subscribe").its("response.statusCode").should("eq", 200);
         cy.get("@subscribe")
             .its("response.body")
             .should("contain", "Subscribed Successfully");
-        cy.get(".subscriberesponse").should(
+        Newsletter.responseMessage().should(
             "contain",
             "Subscribed Successfully"
         );
@@ -31,24 +33,26 @@ describe("Newsletter subscribction form", () => {
 
     it("blocks a subscription with an improper addres - no @ sign", () => {
         cy.intercept({ method: "POST", url: "**/subscribe" }).as("subscribe");
-        Newsletter.typeRandomEmail("noAtSign");
+        Newsletter.typeEmail("noAtSign");
+        Newsletter.submit();
         cy.wait("@subscribe").its("response.statusCode").should("eq", 200);
         cy.get("@subscribe")
             .its("response.body")
             .should("contain", "<p>Kindly Enter a Valid Email Address.</p>");
-        cy.get(".subscriberesponse").should(
+        Newsletter.responseMessage().should(
             "contain",
             "Kindly Enter a Valid Email Address."
         );
     });
     it("blocks a subscription with an improper address - invalid domain", () => {
         cy.intercept({ method: "POST", url: "**/subscribe" }).as("subscribe");
-        Newsletter.typeRandomEmail("invalidDomain");
+        Newsletter.typeEmail("invalidDomain");
+        Newsletter.submit();
         cy.wait("@subscribe").its("response.statusCode").should("eq", 200);
         cy.get("@subscribe")
             .its("response.body")
             .should("contain", "<p>Kindly Enter a Valid Email Address.</p>");
-        cy.get(".subscriberesponse").should(
+        Newsletter.responseMessage().should(
             "contain",
             "Kindly Enter a Valid Email Address."
         );
