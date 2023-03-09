@@ -29,7 +29,7 @@ describe("Login form", () => {
             .and("contain", "Invalid Email or Password");
     });
 
-    it.only("doesn't log in correctly with a proper username and without password", () => {
+    it("doesn't log in correctly with a proper username and without password", () => {
         LoginForm.typeUsername("user@phptravels.com");
         LoginForm.clickLoginBtn();
         cy.xpath('//div[@id="body-section"]//form/div[1]/div[2]/div')
